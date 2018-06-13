@@ -1,0 +1,26 @@
+extends layout.pug
+block content
+  div.form-container.add-container
+    h1.content-title Add New Poll
+    h3(align="center").form-op Please Choose A Name For Poll
+    form#add-form(method="POST" action="/polls/add/addpoll/" onsubmit="event.preventDefault(); validateForm();")
+      input.form-op.text-bar(type="text" name="pollName" required)
+      h3(align="center").form-op Please Enter A Description For Poll
+      textarea.form-op.text-bar(name="description" rows="10" required) Description of poll.
+      h3(align="center").form-op Poll Value List
+      ul#value-list
+      input#list-input(type="hidden" name="list-values")    
+      input.form-op.submit#form-submit(type="submit")
+      div.radio-div
+        h3(align="center") Select an option for posting your poll.
+        p(align="center")  If you would like others to know you were the poster, select your username. Otherwise select Anonymous.
+        label(for="r1") Anonymous
+        input(type="radio" name="visibility" value="Anonymous" id="r1" checked)
+        label(for="r2") #{user.username}
+        input(type="radio" name="visibility" value=user.username id="r2")  
+    h5(align="center").form-op Enter name for value and press the + sign to add to list        
+    input(type="text").text-bar#input-val.form-op    
+    button.add-button +       
+    
+      
+      

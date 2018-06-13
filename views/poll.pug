@@ -1,0 +1,63 @@
+extends layout.pug
+block content
+  div.status
+    if voted
+      h2.alert.error You Have Already Voted Here Today! Please Try Again Tommorrow.
+    else if success
+      h2.alert.success You Successfully Voted!
+  div.poll-container
+    div.content-container
+      h2.content-title=title
+        h4.creator(align="center") Created by: #{display}
+      ul.content-list
+        each element,i in list
+          li
+            span.name-span=element.name
+            span.count-span.right  #{element.value} &nbsp
+              i(class="fas fa-thumbs-up") &nbsp
+      div.vote-container
+        h3.form-op Choose a value to vote for:
+        form(action="/polls/submit/"+id method="POST")
+          select(required name="voteSelection").form-op.select-bar 
+            option(value="") Choose a value..
+              each element, i in list
+                option(value=element.name) #{element.name}
+          br      
+          input.form-op.submit(type="submit" value="Submit")
+      if user
+        if creator
+          if user.username == creator.username
+          button(id="delete" data-id=id).form-op.delete Delete                      
+    div#pie-chart.visual-container
+  script(type="text/javascript" src="https://www.gstatic.com/charts/loader.js")          
+  script(type="text/javascript").
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+    
+    var data = null;
+    var options = {'title':"#{title}"+" Pie Chart",backgroundColor: '#E8E8E8',fontSize:'13'};
+    
+    window.onresize = resize;
+    
+    
+    function resize(){
+      var chart = new google.visualization.PieChart(document.getElementById('pie-chart'));
+      chart.draw(data, options);
+    }
+
+    // Draw the chart and set the chart values
+    function drawChart() {
+  
+    var valArray = [['Name', 'Value']];   
+    
+    var list=!{JSON.stringify(list)};
+    
+    list.forEach((element)=>{
+      valArray.push([element.name,element.value]);
+    });
+      
+    data = google.visualization.arrayToDataTable(valArray);
+    
+    var chart = new google.visualization.PieChart(document.getElementById('pie-chart'));
+    chart.draw(data, options);
+    }      

@@ -1,0 +1,24 @@
+html
+  head
+    link(rel="stylesheet", href="/css/main.css")
+    link(href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet")
+    link(rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous")
+  body
+    nav
+      a(href="/").left voteSHACK!
+      unless user
+        a(href="/twitter/login").right#sign-in Sign In Using Twitter&nbsp&nbsp
+          i(class="fab fa-twitter")
+      if user
+        a(href="#", style="cursor:none;").right Signed in as #{user.username}
+      a(href="/").right Home
+      if user
+        a(href="/polls/add/addpoll/").right Add Poll
+    block content  
+    br
+    footer
+      p Copyright &copy; 2018 By Michael Santana. All rights reserved.
+      h2 Contact me at msantan211@gmail.com
+    script(src="https://code.jquery.com/jquery-3.3.1.min.js")  
+    script(src="/js/main.js")
+             
