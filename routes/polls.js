@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const mongojs = require('mongojs');
-const keys = require("../keys")
-const db = mongojs(keys.mongo,['votes']);
+//const keys = require("../keys")
+const db = mongojs("mongodb://user:pass@ds035766.mlab.com:35766/freecodedb",['votes']);
 const RateLimit = require('express-rate-limit');
 
 
