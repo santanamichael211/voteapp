@@ -12,6 +12,8 @@ var app = express();
 
 app.enable('trust proxy');
 
+app.set("port",(process.env.PORT || 5000));
+
 var index = require('./routes/index');
 var polls = require('./routes/polls');
 var twitter = require('./routes/twitter');
@@ -58,6 +60,6 @@ app.use("/",index);
 app.use("/polls",polls);
 app.use("/twitter",twitter);
 
-app.listen(3000, function () {
-	console.log('Listening on port 3000...');
+app.listen(app.get("port"), function () {
+	console.log('Listening on port ' + app.get("port"));
 });
