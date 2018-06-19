@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-//const mongojs = require('mongojs');
+const mongojs = require('mongojs');
 //const keys = require("../keys")
-//const db = mongojs("mongodb://user:pass@ds035766.mlab.com:35766/freecodedb",['votes']);
+const db = mongojs("mongodb://user:pass@ds035766.mlab.com:35766/freecodedb",['votes']);
 const RateLimit = require('express-rate-limit');
 
 
@@ -21,7 +21,7 @@ handler: function (req, res, /*next*/) {
 router.use('/polls/submit/:id', voteLimiter);
 
 router.get("/:id", function(req,res,next){
-  /*var id = mongojs.ObjectId(req.params.id);
+  var id = mongojs.ObjectId(req.params.id);
   db.votes.find({"_id":id},function(err,doc){
     var data = {
       id:id,
@@ -42,20 +42,18 @@ router.get("/:id", function(req,res,next){
       res.render('poll',data);
     }
   });
-  */
-    res.render('poll');
 });
 
 router.delete("/:id", function(req,res){
-  /*var id = mongojs.ObjectId(req.params.id);
+  var id = mongojs.ObjectId(req.params.id);
   db.votes.remove({"_id":id},function(){
     res.end();
   });
-*/
+
 });
 
 router.post("/submit/:id", voteLimiter, function(req,res,next){
-  /*var id = mongojs.ObjectId(req.params.id);
+  var id = mongojs.ObjectId(req.params.id);
   var selection = req.body.voteSelection;
   db.votes.update({"_id":id,"list.name":selection},{$inc:{"list.$.value":1,"total":1}},function(err){
     if(err) console.log(err);
@@ -63,7 +61,6 @@ router.post("/submit/:id", voteLimiter, function(req,res,next){
     res.redirect(301,"/polls/"+id+"?success=true");
     }
   });
-  */
 });
 
 
@@ -74,7 +71,7 @@ res.render("add_poll",{user:req.user});
 });
 
 router.post("/add/addpoll/", function(req,res,next){
-/*
+
   var list = req.body["list-values"].split(",") ;
 list.forEach((element,index)=>{
   list[index] = {
@@ -95,7 +92,6 @@ list.forEach((element,index)=>{
       res.redirect(301,"/?addSuccess=true");
     }
   });
-  */
 });
 
 
