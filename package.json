@@ -14,13 +14,10 @@
   "author": "Michael Santana",
   "license": "ISC",
   "dependencies": {
-    "babel-core": "^6.26.3",
-    "babel-runtime": "^6.26.0",
     "body-parser": "^1.18.3",
     "express": "^4.16.3",
     "express-rate-limit": "^2.11.0",
     "express-session": "^1.15.6",
-    "mongodb": "^3.1.0-beta4",
     "mongojs": "^2.5.0",
     "passport": "^0.4.0",
     "passport-twitter": "^1.0.4",
