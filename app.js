@@ -34,7 +34,7 @@ app.use(bodyParser.json());
 passport.use(new Strategy({
     consumerKey: "hJJaFezMwEVLJTgNtDw2zakRP",
     consumerSecret: "onbdRwxebUcijDqZ2C9IKIlMkvf9crWcwOvsiy36dADwp01UOC",
-    callbackURL: "https://sleepy-brushlands-29794.herokuapp.com/twitter/return"
+    callbackURL: "https://voteshack.herokuapp.com/twitter/return"
   },
   function(token, tokenSecret, profile, done) {
     done(null,profile);
