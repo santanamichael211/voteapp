@@ -3,8 +3,10 @@ block content
   div.status
     if voted
       h2.alert.error You Have Already Voted Here Today! Please Try Again Tommorrow.
-    else if success
+    if success
       h2.alert.success You Successfully Voted!
+    if com
+      h2.alert.message Successfully Commented!
   div.poll-container
     div.content-container
       h2.content-title=title
@@ -29,13 +31,44 @@ block content
           if user.username == creator.username
           button(id="delete" data-id=id).form-op.delete Delete                      
     div#pie-chart.visual-container
+  br    
+  div#comments
+    h3.content-title Comments
+    hr
+    if comments.length <=0
+      em 
+        h3(align="center" style="color:#999;") Be the first to comment...
+    ul#comment-list
+      each comment, i in comments 
+        li
+          div.user-div 
+            img(src=comment.image)
+            em
+              h5 #{comment.user} says:
+          div.comment-div
+            pre #{comment.comment}
+            em
+              h5 submitted on #{comment.time}
+            //button(class="delete-com" data-id=id).delete Delete  
+                
+  br      
+  if user
+     if user.username  
+       div#send-comments
+         form(method="POST" action="/polls/add/addcom/"+id)
+           h3 
+           textarea.form-op(type="text" name="comment" required style="border:solid black 1px;")
+           i.fas.fa-comment(style="color:dodgerblue;font-size:2em;padding-left:1em;") 
+           input.form-op.submit(type="submit" value="Submit" style="width:5em;") 
+  else 
+    h3(align="center") Please login to comment on poll.
   script(type="text/javascript" src="https://www.gstatic.com/charts/loader.js")          
   script(type="text/javascript").
     google.charts.load('current', {'packages':['corechart']});
     google.charts.setOnLoadCallback(drawChart);
     
     var data = null;
-    var options = {'title':"#{title}"+" Pie Chart",backgroundColor: '#E8E8E8',fontSize:'13'};
+    var options = {'title':"#{title}"+" Pie Chart",backgroundColor: 'whitesmoke',fontSize:'13'};
     
     window.onresize = resize;
     

@@ -1,10 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const mongojs = require('mongojs');
-//const keys = require("../keys")
-const db = mongojs("mongodb://user:pass@ds035766.mlab.com:35766/freecodedb",['votes']);
+const db = mongojs("mongodb://123:password1@ds035766.mlab.com:35766/freecodedb",['votet']);
 const RateLimit = require('express-rate-limit');
-
+const month = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 
 var voteLimiter = new RateLimit({
   windowMs: 1440*60*1000,
@@ -22,7 +21,7 @@ router.use('/polls/submit/:id', voteLimiter);
 
 router.get("/:id", function(req,res,next){
   var id = mongojs.ObjectId(req.params.id);
-  db.votes.find({"_id":id},function(err,doc){
+  db.votet.find({"_id":id},function(err,doc){
     var data = {
       id:id,
       title:doc[0].title,
@@ -31,6 +30,7 @@ router.get("/:id", function(req,res,next){
       total:doc[0].total,
       creator:doc[0].creator,
       display:doc[0].display,
+      comments:doc[0].comments
     }
     if(req.user) data.user = req.user;
     if(req.query.valid == "false"){
@@ -39,6 +39,7 @@ router.get("/:id", function(req,res,next){
     }
     else{
       if(req.query.success == "true") data.success = "true";
+      if(req.query.com == "true") data.com = "true";
       res.render('poll',data);
     }
   });
@@ -46,7 +47,7 @@ router.get("/:id", function(req,res,next){
 
 router.delete("/:id", function(req,res){
   var id = mongojs.ObjectId(req.params.id);
-  db.votes.remove({"_id":id},function(){
+  db.votet.remove({"_id":id},function(){
     res.end();
   });
 
@@ -55,7 +56,7 @@ router.delete("/:id", function(req,res){
 router.post("/submit/:id", voteLimiter, function(req,res,next){
   var id = mongojs.ObjectId(req.params.id);
   var selection = req.body.voteSelection;
-  db.votes.update({"_id":id,"list.name":selection},{$inc:{"list.$.value":1,"total":1}},function(err){
+  db.votet.update({"_id":id,"list.name":selection},{$inc:{"list.$.value":1,"total":1}},function(err){
     if(err) console.log(err);
     else{
     res.redirect(301,"/polls/"+id+"?success=true");
@@ -79,13 +80,14 @@ list.forEach((element,index)=>{
     value:0
   }
 });
-    db.votes.insert({
+    db.votet.insert({
     title:req.body.pollName,
     list:list,
+    comments:[],
     description:req.body.description,
     total:0,
-    creator:req.user,
-    display:req.body.visibility
+    creator:req.user.username,
+    display:req.body.visibility,
   },function(err){
     if(err) console.log(err);
     else{
@@ -94,6 +96,41 @@ list.forEach((element,index)=>{
   });
 });
 
+router.post("/add/addcom/:id",function(req,res,next){
+  var id = mongojs.ObjectId(req.params.id);
+  var today = new Date();
+  var comment = {
+    comment:req.body.comment,
+    user:req.user.username,
+    time:month[today.getMonth()]+ " " + today.getDay() + " " + today.getFullYear() +"-"+ today.getHours()+":"+today.getMinutes()+":"+today.getSeconds(),
+    image:req.user.photos[0].value
+  };
+
+  db.votet.update({"_id":id},{$push:{
+    "comments":{$each:[comment],$position:0}
+  }},function(err){
+    if(err){console.log(err);}
+    else{res.redirect(301,"/polls/"+id+"?com=true");}
+  });
+});
+
+router.post("/delete/deletecom/:id",function(req,res,next){
+var id = mongojs.ObjectId(req.params.id);
+var pos = "comments." + req.query.val;
+
+
+db.votet.update({"_id":id},{$set:{"pos":null}},function(err){
+  if(err)console.log(err);
+  else{
+    db.votet.update({"_id":id},{$pull:{"comments":null}},function(err){
+      if(err)console.log(err);
+      else{
+      res.redirect(301,"/polls/"+id+"?comdel=true");
+      }
+    });
+  }
+});
+});
 
 
 module.exports = router;

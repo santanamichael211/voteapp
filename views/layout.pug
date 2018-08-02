@@ -11,6 +11,7 @@ html
           i(class="fab fa-twitter")
       if user
         a(href="#", style="cursor:none;").right Signed in as #{user.username}
+        img(src=user.photos[0].value)
       a(href="/").right Home
       if user
         a(href="/polls/add/addpoll/").right Add Poll

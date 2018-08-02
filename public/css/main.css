@@ -99,6 +99,8 @@ text-decoration: none;
 color:white;
 }
 
+#poll-list li h3 a:hover{color:#ca9642;}
+
 .des-show{
   padding:0;
   margin:0;
@@ -342,6 +344,10 @@ color:white;
   background-color: #4CAF50;
 }
 
+.message{
+  background-color: dodgerblue;
+}
+
 .status{
   margin:0 auto;
   text-align: center;
@@ -377,4 +383,57 @@ footer{
   left: 0;
   border-top: 2px #ca9642 solid;
   padding-top:.5em;
+}
+
+#comments{
+  width:100%;
+  margin:0 auto;
+}
+
+#comment-list{
+  width:75%;
+  list-style: none;
+  margin: 0 auto;
+  padding: 0;
+}
+
+#comment-list li{
+  border-bottom: solid 1px dodgerblue;
+  background:whitesmoke;
+  margin-bottom:.5em;
+}
+
+.user-div img{
+  border:dotted 1px dodgerblue;
+  margin-bottom:0;
+}
+
+.user-div h5{
+  font-weight:bold;
+  color:dodgerblue;
+  margin-left:1em;
+  margin-bottom:0;
+  margin-top: 0;
+}
+
+.comment-div h5{
+margin-left:75%;
+color:dodgerblue;
+margin-bottom: 0;
+margin-top:0;
+}
+
+.comment-div{
+overflow:auto;
+}
+
+.comment-div pre{
+  margin-left:15%;
+  margin-bottom:0;
+  padding-bottom: 0;
+  font-size:1.2em;
+  border-left:dotted dodgerblue .5px;
+  line-height: .7em;
+  width:50%;
+  padding-left:1em;
 }

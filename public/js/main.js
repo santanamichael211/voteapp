@@ -49,6 +49,31 @@ $(document).ready(function(){
       });
       }
     });
+
+    //----------------------
+    $(".delete-com").on("click", function(event){
+      var id = event.currentTarget.getAttribute("data-id");
+      var val = event.currentTarget.parentElement.getElementsByTagName("PRE")[0].innerHTML;
+      var position = $("#comment-list li:contains("+val+")").index();
+
+
+
+      if(confirm("Are you sure you want to delete this comment?")){
+        $.ajax({
+          type: "POST",
+          url:"/polls/delete/deletecom/"+ id+"?val="+position,
+          success: function(response){
+            alert("Deleting Comment");
+            window.location.href="/polls/"+id;
+          },
+          error: function(err){
+            console.log(err);
+          }
+      });
+      }
+
+    });
+    //----------------------
 });
 
 function removeEle(event){
