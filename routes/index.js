@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const mongojs = require('mongojs');
-const db = mongojs("mongodb://123:password1@ds035766.mlab.com:35766/freecodedb",['votet']);
+const keys = require("./keys")
+const db = mongojs(keys.mongo,['votet']);
 
 router.get("/", function(req,res,next){
   db.votet.find(function(err,docs){

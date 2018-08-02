@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 const RateLimit = require('express-rate-limit');
 const passport = require("passport");
 const Strategy = require("passport-twitter").Strategy;
-//const keys = require("./keys")
+const keys = require("./keys")
 
 
 var app = express();
@@ -32,8 +32,8 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 passport.use(new Strategy({
-    consumerKey: "hJJaFezMwEVLJTgNtDw2zakRP",
-    consumerSecret: "onbdRwxebUcijDqZ2C9IKIlMkvf9crWcwOvsiy36dADwp01UOC",
+    consumerKey: keys.twitter.consumerKey,
+    consumerSecret: keys.twitter.consumerSecret,
     callbackURL: "https://voteshack.herokuapp.com/twitter/return"
   },
   function(token, tokenSecret, profile, done) {
