@@ -1,24 +1,26 @@
 extends layout.pug
 block content
-  div.status
-    if addSuccess
-      h2.alert.success New Poll Successfully Added!
-    if error
-      h2.alert.error #{error}  
   div.title-div
-    h1(align="center") voteSHACK!
-    h3(align="center") See Below For List Of Polls.
-    h3(align="center") Click down arrow to see brief description of poll. You can also click the poll name to vote and view statistics.
-    h4(align="center")
-      em If you would like to create a poll please sign in. 
+    h1.vote vote
+    h1.shack SHACK!
+    h2 See Below For List Of Polls.
+    p Click down arrow to see brief description of poll. You can also click the poll name to vote and view statistics. If you would like to create a poll please sign in. 
   div#poll-div
     ul#poll-list
       each doc, i in docs
         li
-          button.des-show &#9660;
-          h3
-            a(href="/polls/"+doc._id)= doc.title
+          a(href="/polls/"+doc._id)
+            h3=doc.title
+          button.des-show &#9660;  
           div.description-div
-            p Description: #{doc.description}
-            h5.right #{doc.total} &nbsp
-              i(class="fas fa-thumbs-up")
+            table
+              tr
+                td Description
+                td Comments
+                td Votes 
+              tr
+                td=doc.description
+                td=doc.comments.length
+                td=doc.total
+                  i(class="fas fa-thumbs-up")
+          

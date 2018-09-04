@@ -1,96 +1,188 @@
 extends layout.pug
 block content
-  div.status
-    if voted
-      h2.alert.error You Have Already Voted Here Today! Please Try Again Tommorrow.
-    if success
-      h2.alert.success You Successfully Voted!
-    if com
-      h2.alert.message Successfully Commented!
-  div.poll-container
-    div.content-container
-      h2.content-title=title
-        h4.creator(align="center") Created by: #{display}
-      ul.content-list
-        each element,i in list
-          li
-            span.name-span=element.name
-            span.count-span.right  #{element.value} &nbsp
-              i(class="fas fa-thumbs-up") &nbsp
-      div.vote-container
-        h3.form-op Choose a value to vote for:
-        form(action="/polls/submit/"+id method="POST")
-          select(required name="voteSelection").form-op.select-bar 
-            option(value="") Choose a value..
-              each element, i in list
-                option(value=element.name) #{element.name}
-          br      
-          input.form-op.submit(type="submit" value="Submit")
+  div#vote-div
+    div#vote-div-content
+      span.close#close-vote &times;
+      h5.vote-title.header=title
+      p Choose which item you would like to vote for. Once you are certain hit the submit button.
+      form(action="/polls/submit/"+id method="POST")
+        select(required name="voteSelection").select-bar 
+          option(value="") Choose a value..
+            each element, i in list
+              option(value=element.name).option #{element.name}
+        br      
+        input.submit(type="submit" value="Submit")
+  div#top-container
+    div#comment-wrapper
+      div#comment-container
+        h1.header.content-title Comments
+        ul#comment-list
+          each comment, i in comments
+            li
+              if user
+                if creator
+                  if user.username === comment.user
+                    button(data-id=id).comment-close &times; 
+              img(src=comment.image)
+              h5.comment-user.header #{comment.user}
+              p.comment-text #{comment.comment}
+      div#comment-bar
+        if user
+          if user.username
+            form(method="POST" action="/polls/add/addcom/"+id)
+              input#comment-input(type="text" name="comment" required placeholder="Add a comment...")
+        else
+          h5.header Please login in to comment              
+    div#list-container
+      h1.header.content-title=title
       if user
         if creator
           if user.username == creator.username
-          button(id="delete" data-id=id).form-op.delete Delete                      
-    div#pie-chart.visual-container
-  br    
-  div#comments
-    h3.content-title Comments
-    hr
-    if comments.length <=0
-      em 
-        h3(align="center" style="color:#999;") Be the first to comment...
-    ul#comment-list
-      each comment, i in comments 
-        li
-          div.user-div 
-            img(src=comment.image)
-            em
-              h5 #{comment.user} says:
-          div.comment-div
-            pre #{comment.comment}
-            em
-              h5 submitted on #{comment.time}
-            //button(class="delete-com" data-id=id).delete Delete  
-                
-  br      
-  if user
-     if user.username  
-       div#send-comments
-         form(method="POST" action="/polls/add/addcom/"+id)
-           h3 
-           textarea.form-op(type="text" name="comment" required style="border:solid black 1px;")
-           i.fas.fa-comment(style="color:dodgerblue;font-size:2em;padding-left:1em;") 
-           input.form-op.submit(type="submit" value="Submit" style="width:5em;") 
-  else 
-    h3(align="center") Please login to comment on poll.
-  script(type="text/javascript" src="https://www.gstatic.com/charts/loader.js")          
-  script(type="text/javascript").
-    google.charts.load('current', {'packages':['corechart']});
-    google.charts.setOnLoadCallback(drawChart);
-    
-    var data = null;
-    var options = {'title':"#{title}"+" Pie Chart",backgroundColor: 'whitesmoke',fontSize:'13'};
-    
-    window.onresize = resize;
-    
-    
-    function resize(){
-      var chart = new google.visualization.PieChart(document.getElementById('pie-chart'));
-      chart.draw(data, options);
+          button(id="delete" data-id=id).header
+            i(class="fas fa-trash-alt")
+      ul
+        each element, i in list
+          li
+            div.ele-name
+              h5.header=element.name
+            div.ele-value
+              h5=element.value
+              i(class="heart fas fa-heart")
+      button.vote-btn.header Vote          
+      h5.creator Created by: #{display}       
+  div#chart-container
+    button#cycle-button
+      i(class="fas fa-sync-alt")
+    canvas#chart(width="200px" height="200px")
+  style(type="text/css").
+    @media screen and (max-width:1100px){
+      footer{ 
+        position:relative;
+      }
     }
-
-    // Draw the chart and set the chart values
-    function drawChart() {
-  
-    var valArray = [['Name', 'Value']];   
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js")    
+  script(type="text/javascript").
+    //--- get data and labels for chart
     
     var list=!{JSON.stringify(list)};
-    
-    list.forEach((element)=>{
-      valArray.push([element.name,element.value]);
+    var data = [];
+    var labels = [];
+    list.forEach((ele)=>{
+      data.push(ele.value);
+      labels.push(ele.name);
     });
-      
-    data = google.visualization.arrayToDataTable(valArray);
     
-    var chart = new google.visualization.PieChart(document.getElementById('pie-chart'));
-    chart.draw(data, options);
-    }      
+    var chartState = "doughnut";
+    var chart = null;
+    
+    //--- switch between bar and doughnut
+    document.getElementById("cycle-button").addEventListener("click",()=>{
+      document.getElementById("cycle-button").blur();
+      if(chartState==="doughnut"){
+        chartState = "bar";
+        renderChart(chartState);
+      }
+      else{
+        chartState = "doughnut";
+        renderChart(chartState);
+      }
+    })
+    
+    renderChart(chartState);
+    //-- render chart function start
+    function renderChart(type){
+      
+      if(chart!=null){chart.destroy();}
+      var chartCont = document.getElementById('chart');
+      var ctx = chartCont.getContext('2d');
+      chart = new Chart(ctx, {
+        type:type,
+        data:{
+          labels:labels,
+          datasets:[{
+            label: labels,
+            data: data,
+            backgroundColor: setColor(data.length),
+            borderWidth:1.2,
+            borderColor:"rgba(255,255,255,1)"
+          }]
+        },
+        options:{
+          maintainAspectRatio: false,
+          legend:{
+            labels:{
+              fontColor: "#304352"
+            },
+          }
+        }
+      });
+      
+      if(chartState === "bar"){
+        chart.options.scales = {
+          xAxes:[{
+            display:false
+          }],
+          yAxes:[{
+            display:false
+          }]  
+        }
+        
+        chart.update();
+      }
+
+      
+      
+    }
+    //-- render chart function end
+    
+    
+    //-- get colors for chart
+    function setColor(points){
+      var colors = [
+          '#e6194b', 
+          '#3cb44b', 
+          '#ffe119', 
+          '#4363d8', 
+          '#f58231', 
+          '#911eb4', 
+          '#46f0f0', 
+          '#f032e6', 
+          '#bcf60c', 
+          '#fabebe', 
+          '#008080', 
+          '#e6beff', 
+          '#9a6324', 
+          '#fffac8', 
+          '#800000', 
+          '#aaffc3', 
+          '#808000', 
+          '#ffd8b1', 
+          '#000075', 
+          '#808080', 
+          '#ffffff', 
+          '#000000'
+          ];
+          
+          var colorArr = colors.slice();
+          var colorSet = [];
+          
+          for(var i = 0; i<points;  i++){
+          var val = Math.floor(Math.random()*colorArr.length);
+          if(colorArr.length===0){
+            colorArr = colors.slice();
+          }
+          colorSet.push(colorArr[val])
+          colorArr.splice(val,1);
+            }
+            return colorSet;
+    
+            }
+            
+    
+  
+    
+    
+    
+      
+    
+        

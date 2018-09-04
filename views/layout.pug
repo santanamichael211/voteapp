@@ -1,25 +1,51 @@
 html
   head
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
     link(rel="stylesheet", href="/css/main.css")
-    link(href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet")
+    link(href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet")
+    link(href="https://fonts.googleapis.com/css?family=EB+Garamond|Oswald" rel="stylesheet")
     link(rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous")
   body
     nav
-      a(href="/").left voteSHACK!
+      a(href="/").left.home 
+        h1.vote vote
+        h1.shack SHACK!
+        img(src="/images/voteshack-logo.svg" height="45px" width="45px" style="vertical-align:middle;margin-left:5px;")
       unless user
-        a(href="/twitter/login").right#sign-in Sign In Using Twitter&nbsp&nbsp
-          i(class="fab fa-twitter")
+        a(href="/twitter/login").right#sign-in Sign In &nbsp
+          i(class="fab fa-twitter")#twitt
       if user
-        a(href="#", style="cursor:none;").right Signed in as #{user.username}
-        img(src=user.photos[0].value)
-      a(href="/").right Home
-      if user
-        a(href="/polls/add/addpoll/").right Add Poll
+        div#user-div.right
+          a(href="#")#user-btn.nav-link.right
+            i(class="fas fa-user-astronaut")
+          div#menu-div
+            a(href="#" style="font-size:13px;").nav-link.right Signed in as #{user.username}
+              img#user-img(src=user.photos[0].value)
+            a(href="/twitter/logout").nav-link.right Sign out        
+        a(href="/polls/add/addpoll/").nav-link.right Add Poll
+    div#modal
+      div#modal-content
+        span.close#close-modal &times; 
+        h3.header#status 
+        p.text#modal-text     
     block content  
     br
     footer
-      p Copyright &copy; 2018 By Michael Santana. All rights reserved.
-      h2 Contact me at msantan211@gmail.com
-    script(src="https://code.jquery.com/jquery-3.3.1.min.js")  
-    script(src="/js/main.js")
+      div#footer-div
+        h5.text.left.copy &copy; Michael Santana 2018
+        h5.text.made-with.hide Made With
+        i.hide(class="fab fa-node-js")
+        h5.header.made-with.hide Express.js, & Chart.js
+        a(href="https://www.linkedin.com/in/michael-santana-3a1942129/" title="linked-in").right
+          i(class="fab fa-linkedin")
+        a(href="https://github.com/santanamichael211" title="git-hub").right
+          i(class="fab fa-github")
+        a(href="https://codepen.io/msantan211/" title="code-pen").right
+          i(class="fab fa-codepen")
+        a(href="http://www.michaelsantana.me" title="Personal-Site").right
+          i(class="fas fa-home")    
+        h5.header.email.right.hide SantanaMichael03@gmail.com
+        h5.text.right.hide Contact Me At:
+    script(src="https://code.jquery.com/jquery-3.3.1.min.js") 
+    script(src="/js/main.js")       
              
