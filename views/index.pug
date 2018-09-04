@@ -8,7 +8,7 @@ block content
   div#poll-div
     ul#poll-list
       each doc, i in docs
-        li
+        li.noSelect
           a(href="/polls/"+doc._id)
             h3=doc.title
           button.des-show &#9660;  
