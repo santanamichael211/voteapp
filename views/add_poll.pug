@@ -16,7 +16,7 @@ block content
         legend.header
           label(for="poll-description") Description 
         input.form-op#poll-description(name="description" required placeholder="Provide a description for your poll...")
-      fieldset.form-sep
+      fieldset.form-sep(style="content:'';display: table; clear: both;")
         legend.header Visibility
         p If you would like others to know you were the poster, select your username. Otherwise select Anonymous.
         div
@@ -28,14 +28,7 @@ block content
         legend.header Poll Value List
         ul#value-list
         input#list-input(type="hidden" name="list-values")        
-      input#form-submit(type="submit").submit
-  style(type="text/css").
-    @media screen and (max-width:1100px){
-          footer{ 
-            display:none;
-          }
-        }                
-         
+      input#form-submit(type="submit").submit               
         
       
       
