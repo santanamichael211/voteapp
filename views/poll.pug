@@ -33,36 +33,29 @@ block content
               input#comment-input(type="text" name="comment" required placeholder="Add a comment...")
         else
           h5.header Please login in to comment              
-    div#list-container
-      h1.header.content-title=title
-      if user
-        if creator
-          if user.username == creator.username
-          button(id="delete" data-id=id).header
-            i(class="fas fa-trash-alt")
-      ul
-        each element, i in list
-          li
-            div.ele-name
-              h5.header=element.name
-            div.ele-value
-              h5=element.value
-              i(class="heart fas fa-heart")
-      button.vote-btn.header Vote          
-      h5.creator Created by: #{display}       
+    div#list-wrapper
+      div#list-container
+        h1.header.content-title=title
+        if user
+          if creator
+            if user.username == creator.username
+            button(id="delete" data-id=id).header
+              i(class="fas fa-trash-alt")
+        ul
+          each element, i in list
+            li
+              div.ele-name
+                h5.header=element.name
+              div.ele-value
+                h5=element.value
+                i(class="heart fas fa-heart")
+      div#vote-bar
+        button.vote-btn.header Vote          
+        h5.creator Created by: #{display}         
   div#chart-container
     button#cycle-button
       i(class="fas fa-sync-alt")
     canvas#chart(width="200px" height="200px")
-  style(type="text/css").
-    @media screen and (max-width:1100px){
-      body,html{
-        height: auto;
-      }
-      footer{ 
-        position:relative;
-      }
-    }
   script(src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js")    
   script(type="text/javascript").
     //--- get data and labels for chart

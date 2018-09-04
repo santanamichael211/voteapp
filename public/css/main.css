@@ -1,7 +1,32 @@
 html{
   height:100%;
   width:100%;
+  margin:0;
+  padding:0;
+  box-sizing: border-box;
 }
+
+body{
+  position: relative;
+  background:linear-gradient(to bottom,#304352,#d7d2cc);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  margin:0;
+  padding:0;
+  padding-bottom: 6rem;
+  width:100%;
+  font-family: Helvetica;
+  font-family: 'EB Garamond', serif;
+  min-height: 100%;
+}
+
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
 
 img,h5,div,a {
 -webkit-user-select: none;
@@ -25,15 +50,6 @@ img:focus, h5:focus, div:focus, a:focus
 }
 
 
-body{
-  background:linear-gradient(to bottom,#304352,#d7d2cc);
-  margin:0;
-  padding:0;
-  font-family: Helvetica;
-  font-family: 'EB Garamond', serif;
-  overflow: auto;
-}
-
 a{
   outline: none;
   text-decoration: none;
@@ -53,7 +69,7 @@ footer{
   width:90%;
   margin:auto;
   position: absolute;
-  height: 40px;
+  padding: 1em;
   right: 0;
   bottom: 0;
   left: 0;
@@ -68,7 +84,6 @@ footer a{
   width:100%;
   margin:auto;
   height: 100%;
-  transition: all .7s;
   color:rgba(48, 67, 82,.8);
 }
 
@@ -78,7 +93,6 @@ footer a{
   font-size:.9vw;
 }
 
-
 #footer-div i{
     font-size:.9vw;
   padding: 0 5px;
@@ -86,7 +100,7 @@ footer a{
 
 #footer-div a{
   padding:5px 1px;
-    font-size:.9vw;
+  font-size:.9vw;
   -webkit-transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   transition:         all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
@@ -128,6 +142,15 @@ nav{
   font-size: 1.3em;
 }
 
+#user-img{
+  height:25px;
+  width:25px;
+  vertical-align: middle;
+  border-radius: 50%;
+  margin-bottom: 3px;
+  margin-left:2px;
+}
+
 #menu-div{
   overflow: auto;
   position:absolute;
@@ -154,15 +177,6 @@ nav{
   background-color:#CEE7E6;
   color:#304352;
   box-shadow:0 3px 3px rgba(0,0,0,0);
-}
-
-#user-img{
-  height:25px;
-  width:25px;
-  vertical-align: middle;
-  border-radius: 50%;
-  margin-bottom: 3px;
-  margin-left:2px;
 }
 
 .home{
@@ -214,7 +228,6 @@ vertical-align: middle;
   transition:         transform 600ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-
 nav a{
   background:none;
   color:#D7D2CC;
@@ -227,9 +240,10 @@ nav a{
 #modal{
   width:100%;
   height:100%;
+  margin:0;
   background:rgba(0,0,0,.7);
   position:fixed;
-  z-index:1;
+  z-index:10;
   display: none;
 }
 
@@ -241,6 +255,7 @@ nav a{
   border:1px solid rgba(255,255,255,.05);
   background:rgba(215, 210, 204,.2);
   border-radius:2px;
+  overflow:auto;
   position: relative;
 }
 
@@ -251,7 +266,6 @@ nav a{
   font-size:1.2em;
   width:100%;
   text-align: center;
-  z-index:0;
   background:transparent;
 }
 
@@ -273,9 +287,6 @@ nav a{
   float:right;
 }
 
-.marg-right{
-  margin-right:1em;
-}
 
 .title-div{
   	background: transparent;
@@ -317,7 +328,7 @@ nav a{
   box-shadow: 0 2px 1px rgba(0,0,0,.3);
   border:1px solid rgba(0,0,0,.3);
   -webkit-transition: all .6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
- transition:         all .6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  transition:         all .6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
 #poll-list li:hover{
@@ -393,7 +404,7 @@ opacity:1;
 .description-div table{
   width:90%;
   margin:auto;
-  text-align: center;
+  text-align: left;
   color:#304352;
 }
 
@@ -414,7 +425,7 @@ opacity:1;
   width:25%;
   margin:auto;
   margin-top:5em;
-  height:20em;
+  height:21em;
   border:1px solid rgba(255,255,255,.05);
   background:rgba(215, 210, 204,.2);
   border-radius:2px;
@@ -497,7 +508,6 @@ opacity:1;
   -webkit-transition: all 600ms cubic-bezier(0.19, 1, 0.22, 1);
    transition:         all 600ms cubic-bezier(0.19, 1, 0.22, 1);
   background:#CEE7E6;
-  margin-top:1em;
   width:50%;
   margin-left: 25%;
   height:3em;
@@ -517,6 +527,10 @@ opacity:1;
 #top-container{
   width:50%;
   margin: auto;
+}
+
+#top-container::after{
+content:'';display: table; clear: both;
 }
 
 #comment-container::-webkit-scrollbar {
@@ -656,22 +670,32 @@ opacity:1;
   -webkit-transition: all .6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   transition:         all .6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
-
+#list-wrapper{
+  padding: 0;
+  display: inline-block;
+  width:60%;
+  float:left;
+  margin:0;
+  position: relative;
+}
 
 #list-container{
-  float: left;
   padding: 0;
   display: inline-block;
   margin:auto;
-  margin-top: 1em;
-  width:60%;
+  width:100%;
   height:15em;
+  margin-top: 1em;
+  overflow: auto;
   border-radius: 2px;
   border: 1px solid rgba(255,255,255,.05);
-  padding-bottom:1em;
   position: relative;
   -ms-overflow-style: none;  // IE 10+
   overflow: -moz-scrollbars-none;  // Firefox
+}
+
+#list-container::-webkit-scrollbar {
+    display: none;  // Safari and Chrome
 }
 
 .content-title{
@@ -688,8 +712,8 @@ opacity:1;
   margin:0;
   width:100%;
   list-style: none;
-  overflow: auto;
-  height:13em;
+  height:12em;
+  float:left;
   padding: 0;
 }
 
@@ -736,6 +760,16 @@ margin:0;
 display: inline;
 padding-left:10px;
 color:#304352;
+}
+
+#vote-bar{
+  position:absolute;
+  width: 100%;
+  height: 2em;
+  background:transparent;
+  bottom:0;
+  -webkit-transition: all 600ms cubic-bezier(0.19, 1, 0.22, 1);
+   transition:         all 600ms cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 .creator{
@@ -846,6 +880,7 @@ box-shadow:0 1px 2px rgba(0,0,0,0);
   border: 1px solid rgba(255,255,255,.05);
   border-radius: 2px;
   background: rgba(215, 210, 204,.2);
+  height:450px;
 }
 
 
@@ -871,13 +906,13 @@ legend:hover{
 }
 
 .form-sep{
-
   width:100%;
   margin:5px 0;
   padding:2.5px 0;
   border-bottom:1px solid rgba(215, 210, 204,.1);
   box-shadow: 0 1px 1px rgba(0,0,0,.05);
   margin-bottom:0;
+  height: auto;
 }
 
 .form-sep p{
@@ -1043,10 +1078,6 @@ cursor: pointer;
 
 
 @media screen and (max-width:1100px){
-  body,html{
-    height: 100%;
-  }
-
   nav{
     width:100%;
     margin:0;
@@ -1075,6 +1106,7 @@ cursor: pointer;
   #poll-div{
     margin:0;
     width: 100%;
+    padding-bottom: 2em;
   }
 
   #poll-list li{
@@ -1088,6 +1120,17 @@ cursor: pointer;
 
   #addpoll-container{
     width:100%;
+    overflow: auto;
+  }
+
+  .form-sep legend{
+    font-size:.9em;
+  }
+
+  .form-sep p{
+    display: block;
+    width:100%;
+    font-size: .8em;
   }
 
   #value-list li h3{
@@ -1106,9 +1149,17 @@ cursor: pointer;
     width:100%;
   }
 
+  #list-wrapper{
+    width:100%;
+    margin-bottom: 1em;
+  }
+
   #list-container{
     width:100%;
-    margin-bottom:1em;
+  }
+
+  #list-container ul{
+    height: 13em;
   }
 
   #comment-wrapper{
@@ -1140,7 +1191,6 @@ cursor: pointer;
   footer{
     width:100%;
     margin:0;
-    height:5vw;
   }
 
   footer #footer-div h5{
